@@ -1,60 +1,48 @@
-# Financial & Operational Analytics Dashboard
+# NYC Financial & Operational Analytics
 
-A reproducible portfolio project for a fictional Canadian distributor. An editable native Power BI project includes 8 tables, 11 relationships, 28 DAX measures and 3 report pages. Python and SQL prepare the data and independently verify the results. All data and business findings are synthetic. The model was refreshed in Power BI Desktop and passed 18 native DAX-to-SQL checks.
+**3,304 published observations across 66 reporting months.** A reproducible analysis of real public data from [NYC OMB Financial Plan Statements — Obligation](https://data.cityofnewyork.us/d/hjjq-k984). The default reports use observed records, with no synthetic financial or operational fields.
 
+![Report preview](docs/screenshots/powerbi-monthly.png)
 
-![Dashboard](docs/screenshots/dashboard.png)
+[Dashboard recording](docs/recordings/walkthrough.mp4) · [Screenshot gallery](docs/screenshots) · [Data provenance](docs/DATA_SOURCE.md)
 
-[Recorded walkthrough](docs/recordings/walkthrough.mp4) · [Screenshot gallery](docs/screenshots) · [Capture details](docs/recordings/capture_manifest.json)
+## What the project demonstrates
 
-## Start here
+Current-month obligations, plan-minus-actual variance, and a separate cumulative YTD snapshot. Latest-publication selection prevents revision double-counting. Fiscal years start in July.
 
-Open `reports/dashboard.html` in a browser. It works offline and filters by year and branch. Read `reports/management_brief.md` for computed findings and recommendations. Open `powerbi/native/Financial_Operational_Analytics.pbip` in Power BI Desktop and click Refresh. Embedded sample CSVs make the project portable. See [native validation results](reports/powerbi_validation_results.json).
+## Run locally
 
-To regenerate everything from deterministic source data, run from this folder:
+Python 3.10+; standard library only. Compressed source snapshots are checked in, so analysis runs offline.
 
-```powershell
+```sh
+python scripts/verify_source.py
 python src/build.py
 python src/build_powerbi.py
+python -m unittest discover -s tests -v
 ```
 
-Python 3.10+; standard library only, no packages or credentials. Running again replaces the generated database, CSV exports, dashboard, brief and validation log. Source SQL, DAX and documentation are preserved.
+Open `reports/dashboard.html` in a browser. Generated SQLite databases are excluded from Git to keep the repository compact; running the pipeline recreates them from the full source. No sampled subset is substituted for the full extract.
 
-## Business problem
+## Open in Power BI
 
-Management needs to understand budget performance, cost pressure, delivery reliability and inventory exposure across Edmonton, Calgary and Vancouver. Separate financial, order and inventory tables can cause duplicated totals when joined at inconsistent grains. The solution aggregates facts independently and uses shared date and branch dimensions.
+Open [NYC_Obligations.pbip](powerbi/native/NYC_Obligations.pbip) in Desktop and click **Refresh**. Sample observations are embedded in M partitions; no machine-specific path or credentials are required. Four tables, four relationships, ten DAX measures and three pages separate monthly facts from cumulative snapshots.
 
-## Deliverables
+[Native DAX validation](reports/powerbi_validation_results.json) compares all 1,628 agency/month combinations to SQL and verifies that YTD grand totals use the latest selected period, not a sum of snapshots. Desktop validation is local; CI regenerates model files and tests Python/SQL, not the Desktop application.
 
-| Folder | Contents |
-|---|---|
-| data/raw | Generated relational source tables, including deliberately dirty ledger data |
-| data/model | Eight clean dimension/fact CSVs for Power BI |
-| data/analytics.sqlite | Runnable relational source and reporting database |
-| sql | SQL deduplication, quarantine, transformation and reporting view |
-| powerbi | Import function, measures, theme, relationships and report specification |
-| reports | Interactive browser dashboard, computed management brief, exception log and test results |
-| src | Reproducible data generator and dashboard template |
-| docs | Data dictionary and first-person project walkthrough |
+![YTD report](docs/screenshots/powerbi-ytd.png)
 
-## Data and metric conventions
+![Historical report](docs/screenshots/powerbi-history.png)
 
-Coverage: January 2024–December 2025. CAD only; no FX or tax. Financial amounts are integer cents in storage and dollars in reports. Revenue and expenses are positive magnitudes; operating profit = revenue − COGS − operating expenses. On-time delivery includes all simulated orders and uses shipped date <= promised date. Inventory is stock at month-end, with a standard unit cost; it is not inventory movement or a turnover calculation.
+## Analytical scope
 
-The seeded scenario adds Vancouver second-half 2025 revenue pressure, freight costs and delivery delays plus higher stock in three SKUs. These are scenario assumptions, not independent discoveries about an actual company.
+No revenue, profit, inventory, delivery data or complete annual expense totals are claimed. June and other missing observations are not filled. Amounts are source-rounded USD millions.
 
-## Quality and reproducibility
+## Reviewable files
 
-The raw ledger includes an exact duplicate, unknown branch and missing amount. SQL removes the duplicate from reporting and quarantines the invalid records without overwriting raw data. Validation reconciles cents, keys, snapshot values, order classifications and monthly totals. See the generated JSON log for executed checks. All 28 measures executed in Desktop; 72 branch-month combinations, weighted delivery ratios and year-end inventory were checked against SQL.
+- `data/source/`: compressed full source snapshot, source URL, retrieval timestamp and checksums.
+- `src/` and `sql/`: transformations, reporting calculations and local rendering.
+- `reports/`: computed summaries, validation results and source-quality evidence.
+- `tests/`: edge-case tests for the actual source semantics.
+- `docs/`: methodology, screenshots and an automated browser walkthrough.
 
-This is a management reporting simulation, not an accounting system. It does not implement a balanced general ledger, journal reversals, security roles, incremental refresh, publishing, or production scheduling. Do not describe those as completed work.
-
-## Native Power BI screenshots
-
-These captures show the model running in Desktop.
-
-![Executive report](docs/screenshots/powerbi-executive.png)
-
-![Budget control](docs/screenshots/powerbi-budget.png)
-
-![Inventory and delivery](docs/screenshots/powerbi-inventory.png)
+The earlier synthetic demonstration remains in Git history. Current outputs and screenshots were rebuilt from these public sources; recordings demonstrate the reports, not a person's development session.

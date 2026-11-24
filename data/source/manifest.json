@@ -1,0 +1,12 @@
+{
+  "publisher": "NYC OMB",
+  "source_page": "https://data.cityofnewyork.us/d/hjjq-k984",
+  "download_url": "https://data.cityofnewyork.us/api/views/hjjq-k984/rows.csv?accessType=DOWNLOAD",
+  "downloaded_at_utc": "2026-11-24T19:41:10.875163+00:00",
+  "original_bytes": 191516,
+  "original_sha256": "601572b62a283547f52e70fcb3f34f23e5693d2604bacedfef7a1ef681040f9c",
+  "stored_file": "nyc_obligations.csv.gz",
+  "stored_sha256": "8ee8917af7eed65a172c0060dc64d54cb76a02eca5246e28e1d354df4acadbf5",
+  "units": "USD millions",
+  "data_type": "Observed public data, no generated rows"
+}

@@ -24,7 +24,7 @@ def main():
  assert not errors,errors
  manifest={'captured_at':datetime.now(timezone.utc).isoformat(),'source':'Actual reports/dashboard.html browser render','recording':'Automated browser walkthrough, not manual development footage','page_errors':errors,'screenshots':[{ 'file':name,'sha256':hashlib.sha256((out/name).read_bytes()).hexdigest()} for name in captures]}
  (videoout/'capture_manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
- (videoout/'README.md').write_text('# Recorded dashboard review\n\n[Watch/download walkthrough.mp4](walkthrough.mp4)\n\nContinuous automated browser walkthrough of the working local report. It shows generated synthetic data, not a live Microsoft tenant or manual development session.\n',encoding='utf-8')
+ (videoout/'README.md').write_text('# Recorded dashboard review\n\n[Watch/download walkthrough.mp4](walkthrough.mp4)\n\nContinuous automated browser walkthrough of the working local report. It shows observed public data, not a live Microsoft tenant or manual development session.\n',encoding='utf-8')
  (out/'README.md').write_text('# Dashboard captures\n\nActual browser captures. Excel-prefixed images, when present, are workbook renders. Powerbi-prefixed images are native Power BI Desktop captures.\n\n'+''.join(f'![{name}]({name})\n\n' for name in captures),encoding='utf-8')
  print(json.dumps({'project':r.name,'screenshots':len(captures),'browser_errors':errors}))
 if __name__=='__main__':main()

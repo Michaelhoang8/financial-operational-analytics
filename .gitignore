@@ -5,3 +5,6 @@ __pycache__/
 node_modules/
 .pbi/
 *.inspect.ndjson
+*.sqlite
+data/source/*.zip
+reports/runs/

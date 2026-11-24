@@ -1,28 +1,24 @@
 {
-  "captured_at": "2026-11-24T18:08:40.408559+00:00",
+  "captured_at": "2026-11-24T19:55:29.648492+00:00",
   "source": "Actual reports/dashboard.html browser render",
   "recording": "Automated browser walkthrough, not manual development footage",
   "page_errors": [],
   "screenshots": [
     {
       "file": "dashboard.png",
-      "sha256": "1cba86aed7d9b602565efe5a63b5872db6ba66d3463baa76fcfca8c555cd33e8"
+      "sha256": "e39bd614cf4feccb7818184ccb0a891c37b0674a9ac328bc3335dcec5e05b11b"
     },
     {
       "file": "filtered.png",
-      "sha256": "93edd5da6ad4e76d29cbf5e23295949b1df65d4201004135668fe89ed04fa110"
+      "sha256": "d6e130e1523e75de12f54e0e0686b1103092224421e7e48d35e41b69fbc529cf"
     },
     {
       "file": "detail-1.png",
-      "sha256": "93edd5da6ad4e76d29cbf5e23295949b1df65d4201004135668fe89ed04fa110"
+      "sha256": "d6e130e1523e75de12f54e0e0686b1103092224421e7e48d35e41b69fbc529cf"
     },
     {
       "file": "detail-2.png",
-      "sha256": "93edd5da6ad4e76d29cbf5e23295949b1df65d4201004135668fe89ed04fa110"
-    },
-    {
-      "file": "detail-3.png",
-      "sha256": "28daa1e6f248e37994bff23e0832833bdbbf3b0b5953b38e7b9380c31eeb1ec7"
+      "sha256": "d6e130e1523e75de12f54e0e0686b1103092224421e7e48d35e41b69fbc529cf"
     }
   ]
 }

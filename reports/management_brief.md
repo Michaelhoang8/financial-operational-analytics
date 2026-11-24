@@ -1,16 +1,12 @@
-# Financial and operational review — FY2025
+# NYC obligation review — 2026-07
 
-Synthetic portfolio case. Currency: CAD. Comparisons use the original annual budget; these are simulated findings, not employer results.
+Source: NYC OMB Financial Plan Statements, dataset hjjq-k984. USD millions.
 
-- Revenue: $9,862,766, against $9,952,272 budget (-0.9%).
-- Operating profit: $1,868,841, against $2,049,625 budget ($-180,784 favorable variance).
-- Largest unfavorable branch profit variance: Vancouver, $-125,381.
+The latest available month reports 23,216 actual obligations against 23,349 planned. The largest negative plan-minus-actual difference is Police: -106 million. Investigate the underlying obligation timing and agency commentary before attributing a cause or calling a variance savings.
 
-## Recommended decisions
-1. Review Vancouver's second-half freight rates and shipment mix. The scenario deliberately includes a higher freight rate; compare Freight actual and budget before proposing carrier changes. Owner: operations manager; next review: monthly close.
-2. Review Vancouver SKUs 001–003 for excess stock. The simulation increases these balances. Obtain demand and lead-time evidence before reducing replenishment; this dataset does not establish obsolete stock.
-3. Review late orders by branch using the on-time delivery rate. Investigate carrier and warehouse causes; order records alone do not establish causality.
-4. Correct the three source exceptions before close. Preserve the quarantine log and reconcile accepted plus rejected amounts to raw ledger totals.
-
-## Limits
-The data is seeded to illustrate analysis. No measured savings, stakeholder adoption, production deployment, or causal improvements are claimed. Inventory is a month-end snapshot and must not be summed across months. Orders are assigned to reporting month, not shipment month. The financial ledger is a simplified management P&L, not a balanced general ledger.
+## Reporting decisions
+- Current and cumulative year-to-date observations are separate facts. YTD values must never be summed across months.
+- Where publication dates repeat a period, keep the latest publication for each agency/period/basis. Same-publication conflicts stop the build.
+- Fiscal years start in July. The source does not contain every month (including missing June observations); no annual totals or fabricated gap fills are shown.
+- Preserve signed adjustments and Intra-City Expenses as published. These are obligations, not cash payments, revenue, profit or audited net expenditure.
+- Source amounts are rounded to millions. Month-to-YTD arithmetic can differ because of revisions and source rounding.

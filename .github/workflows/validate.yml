@@ -1,4 +1,4 @@
-name: Validate analytics
+name: Validate real-data analysis
 on: [push, pull_request]
 permissions:
   contents: read
@@ -13,5 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - run: python scripts/verify_source.py
       - run: python src/build.py
       - run: python src/build_powerbi.py
+      - run: python -m unittest discover -s tests -v

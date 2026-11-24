@@ -1,17 +1,18 @@
 {
-  "three intentional exceptions isolated": true,
-  "3600 accepted transactions": true,
-  "unique transaction IDs": true,
-  "ledger reconciliation in cents": true,
-  "72 branch months": true,
-  "inventory valuation": true,
-  "orders classified from dates": true,
-  "FactActual date and branch keys valid": true,
-  "FactBudget date and branch keys valid": true,
-  "FactInventory date and branch keys valid": true,
-  "FactOrders date and branch keys valid": true,
-  "FactActual account keys valid": true,
-  "FactBudget account keys valid": true,
-  "inventory product keys valid": true,
-  "monthly revenue reconciles to ledger": true
+  "title": "NYC obligation review",
+  "source_rows": 3304,
+  "model_rows": 3256,
+  "superseded_rows": 48,
+  "periods": 66,
+  "latest_period": "2026-07",
+  "units": "USD millions",
+  "checks": {
+    "raw_row_accounting": true,
+    "unique_fact_grain": true,
+    "monthly_basis_only": true,
+    "paired_current_ytd": true,
+    "variance_reconciles": true,
+    "source_totals_reconcile": true
+  },
+  "source_sha256": "8ee8917af7eed65a172c0060dc64d54cb76a02eca5246e28e1d354df4acadbf5"
 }

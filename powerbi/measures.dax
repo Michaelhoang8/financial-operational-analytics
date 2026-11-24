@@ -1,45 +1,10 @@
-// Create each measure separately in Power BI Desktop. Amounts stored as CAD cents.
-Actual Amount = DIVIDE(SUM(FactActual[AmountCents]), 100)
-
-Budget Amount = DIVIDE(SUM(FactBudget[AmountCents]), 100)
-
-Revenue = CALCULATE([Actual Amount], DimAccount[Category] = "Revenue")
-
-COGS = CALCULATE([Actual Amount], DimAccount[Category] = "COGS")
-
-Operating Costs = CALCULATE([Actual Amount], DimAccount[Category] = "Opex")
-
-Gross Profit = [Revenue] - [COGS]
-
-Gross Margin % = DIVIDE([Gross Profit], [Revenue])
-
-Operating Profit = [Gross Profit] - [Operating Costs]
-
-Budget Revenue = CALCULATE([Budget Amount], DimAccount[Category] = "Revenue")
-
-Budget Profit = [Budget Revenue] - CALCULATE([Budget Amount], DimAccount[Category] IN {"COGS", "Opex"})
-
-Revenue Variance = [Revenue] - [Budget Revenue]
-
-Revenue Variance % = DIVIDE([Revenue Variance], [Budget Revenue])
-
-Profit Variance = [Operating Profit] - [Budget Profit]
-
-Favorable Account Variance = SUMX(VALUES(DimAccount[AccountKey]), IF(CALCULATE(SELECTEDVALUE(DimAccount[Category])) = "Revenue", [Actual Amount] - [Budget Amount], [Budget Amount] - [Actual Amount]))
-
-Revenue YTD = TOTALYTD([Revenue], DimDate[Date])
-
-Revenue Previous Year = CALCULATE([Revenue], SAMEPERIODLASTYEAR(DimDate[Date]))
-
-Revenue YoY % = DIVIDE([Revenue] - [Revenue Previous Year], [Revenue Previous Year])
-
-Orders = COUNTROWS(FactOrders)
-
-On-Time Orders = SUM(FactOrders[OnTime])
-
-On-Time Delivery % = DIVIDE([On-Time Orders], [Orders])
-
-// Last snapshot WITHIN the selected date context, not a sum over time.
-Closing Inventory = VAR LastSnapshot = MAX(FactInventory[Date]) RETURN IF(NOT ISBLANK(LastSnapshot), CALCULATE(DIVIDE(SUM(FactInventory[ValueCents]), 100), KEEPFILTERS(DimDate[Date] = LastSnapshot)))
-
-Closing Units = VAR LastSnapshot = MAX(FactInventory[Date]) RETURN IF(NOT ISBLANK(LastSnapshot), CALCULATE(SUM(FactInventory[Units]), KEEPFILTERS(DimDate[Date] = LastSnapshot)))
+Actual obligations = SUM(FactMonthly[Actual])
+Planned obligations = SUM(FactMonthly[Plan])
+Plan minus actual = [Planned obligations] - [Actual obligations]
+Variance % = DIVIDE([Plan minus actual], ABS([Planned obligations]))
+Reported months = DISTINCTCOUNT(FactMonthly[Period])
+Agency count = DISTINCTCOUNT(FactMonthly[AgencyKey])
+YTD actual at latest month = VAR LastPeriod = MAX(DimPeriod[Period]) RETURN CALCULATE(SUM(FactYTD[Actual]), DimPeriod[Period] = LastPeriod)
+YTD plan at latest month = VAR LastPeriod = MAX(DimPeriod[Period]) RETURN CALCULATE(SUM(FactYTD[Plan]), DimPeriod[Period] = LastPeriod)
+YTD plan minus actual = [YTD plan at latest month] - [YTD actual at latest month]
+YTD variance % = DIVIDE([YTD plan minus actual], ABS([YTD plan at latest month]))

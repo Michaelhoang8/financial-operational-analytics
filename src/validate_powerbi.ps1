@@ -25,34 +25,17 @@ function Read-Dax([string]$Query) {
     return $rows
 }
 try {
-    $monthly = Read-Dax @'
-EVALUATE SELECTCOLUMNS(
- SUMMARIZECOLUMNS(DimDate[YearMonth], DimBranch[Branch],
- "Revenue",[Revenue], "BudgetRevenue",[Budget Revenue], "Profit",[Operating Profit],
- "BudgetProfit",[Budget Profit], "Freight",[Freight], "Inventory",[Closing Inventory],
- "Orders",[Orders], "OnTime",[On-Time Orders], "Rate",[On-Time Delivery %]),
- "Month",DimDate[YearMonth], "Branch",DimBranch[Branch], "Revenue",[Revenue],
- "BudgetRevenue",[BudgetRevenue], "Profit",[Profit], "BudgetProfit",[BudgetProfit],
- "Freight",[Freight], "Inventory",[Inventory], "Orders",[Orders], "OnTime",[OnTime], "Rate",[Rate])
+ $monthly = Read-Dax @'
+EVALUATE SELECTCOLUMNS(SUMMARIZECOLUMNS(DimPeriod[Period],DimAgency[Agency],
+ "Actual",[Actual obligations],"Plan",[Planned obligations],"Variance",[Plan minus actual],
+ "YTDActual",[YTD actual at latest month],"YTDPlan",[YTD plan at latest month]),
+ "Period",DimPeriod[Period],"Agency",DimAgency[Agency],"Actual",[Actual],"Plan",[Plan],"Variance",[Variance],"YTDActual",[YTDActual],"YTDPlan",[YTDPlan])
 '@
-    $annual = Read-Dax @'
-EVALUATE SELECTCOLUMNS(
- SUMMARIZECOLUMNS(DimDate[Year], "Revenue",[Revenue], "Inventory",[Closing Inventory],
- "Prior",[Revenue Previous Year], "RevenueYTD",[Revenue YTD]),
- "Year",DimDate[Year],"Revenue",[Revenue],"Inventory",[Inventory],"Prior",[Prior],"RevenueYTD",[RevenueYTD])
-'@
-    $accounts = Read-Dax @'
-EVALUATE SELECTCOLUMNS(
- SUMMARIZECOLUMNS(DimAccount[Account],DimAccount[Category],
- "Actual",[Actual Amount],"Budget",[Budget Amount],"Favorable",[Favorable Account Variance]),
- "Account",DimAccount[Account],"Category",DimAccount[Category],"Actual",[Actual],"Budget",[Budget],"Favorable",[Favorable])
-'@
-    $modelPath = Join-Path $ProjectRoot 'powerbi/native/Financial_Operational_Analytics.SemanticModel/model.bim'
-    $model = Get-Content -LiteralPath $modelPath -Raw | ConvertFrom-Json
-    $measureNames = @($model.model.tables | ForEach-Object { $_.measures } | Where-Object { $_ } | ForEach-Object { $_.name })
-    $pairs = @($measureNames | ForEach-Object { '"' + $_ + '", [' + $_ + ']' })
-    $allMeasures = Read-Dax ('EVALUATE ROW(' + ($pairs -join ',') + ')')
-    $result = @{monthly=$monthly; annual=$annual; accounts=$accounts; allMeasures=$allMeasures; measureCount=$measureNames.Count}
-    $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $ProjectRoot 'reports/powerbi_native_results.json') -Encoding utf8
-    Write-Output "Executed native DAX: $($monthly.Count) branch-months, $($annual.Count) years, $($accounts.Count) accounts, $($measureNames.Count) measures."
-} finally { $connection.Close() }
+ $overall = Read-Dax 'EVALUATE ROW("YTDActual",[YTD actual at latest month],"YTDPlan",[YTD plan at latest month],"Months",[Reported months])'
+ $model=Get-Content -LiteralPath (Join-Path $ProjectRoot 'powerbi/native/NYC_Obligations.SemanticModel/model.bim') -Raw | ConvertFrom-Json
+ $measureNames=@($model.model.tables | ForEach-Object {$_.measures} | Where-Object {$_} | ForEach-Object {$_.name})
+ $pairs=@($measureNames | ForEach-Object {'"'+$_+'", ['+$_+']'})
+ $all=Read-Dax ('EVALUATE ROW('+($pairs -join ',')+')')
+ @{monthly=$monthly;overall=$overall;allMeasures=$all;measureCount=$measureNames.Count} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $ProjectRoot 'reports/powerbi_native_results.json') -Encoding utf8
+ Write-Output "Native DAX executed for $($monthly.Count) agency/months and $($measureNames.Count) measures."
+} finally {$connection.Close()}

@@ -1,0 +1,20 @@
+{
+  "all_72_branch_months_present": true,
+  "Revenue_matches_SQL_all_72_rows": true,
+  "BudgetRevenue_matches_SQL_all_72_rows": true,
+  "Profit_matches_SQL_all_72_rows": true,
+  "BudgetProfit_matches_SQL_all_72_rows": true,
+  "Freight_matches_SQL_all_72_rows": true,
+  "Inventory_matches_SQL_all_72_rows": true,
+  "Orders_matches_SQL_all_72_rows": true,
+  "OnTime_matches_SQL_all_72_rows": true,
+  "delivery_rates_weighted": true,
+  "2024_closing_inventory_is_December": true,
+  "2024_YTD_matches_annual_revenue": true,
+  "first_year_prior_is_blank": true,
+  "2025_closing_inventory_is_December": true,
+  "2025_YTD_matches_annual_revenue": true,
+  "2025_prior_year_matches_2024": true,
+  "account_variance_direction": true,
+  "all_28_measures_executed": true
+}

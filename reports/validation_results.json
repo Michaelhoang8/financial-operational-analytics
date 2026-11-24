@@ -1,0 +1,17 @@
+{
+  "three intentional exceptions isolated": true,
+  "3600 accepted transactions": true,
+  "unique transaction IDs": true,
+  "ledger reconciliation in cents": true,
+  "72 branch months": true,
+  "inventory valuation": true,
+  "orders classified from dates": true,
+  "FactActual date and branch keys valid": true,
+  "FactBudget date and branch keys valid": true,
+  "FactInventory date and branch keys valid": true,
+  "FactOrders date and branch keys valid": true,
+  "FactActual account keys valid": true,
+  "FactBudget account keys valid": true,
+  "inventory product keys valid": true,
+  "monthly revenue reconciles to ledger": true
+}

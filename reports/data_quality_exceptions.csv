@@ -1,0 +1,4 @@
+TransactionID,Date,BranchKey,AccountKey,Reason,AmountCents
+1,2024-01-31,1,4000,Duplicate transaction ID,2182582
+3601,2025-12-31,99,4000,Unknown branch,125000
+3602,2025-12-31,1,5000,Missing amount,
